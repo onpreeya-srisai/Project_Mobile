@@ -4,7 +4,7 @@ const Stack = createNativeStackNavigator();
 
 const SearchScreen = ({ navigation }) => {
   console.log("หน้า Search ใน StackNav2.js");
-  // return <Search nav={navigation} />;
+  return <Search nav={navigation} />;
 };
 
 export const StackNav = () => {
