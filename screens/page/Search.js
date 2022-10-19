@@ -69,6 +69,12 @@ const c = ["A", "B"];
 const t = ["A", "B"];
 const ca = ["A", "B", "D", "C"];
 
+const Item = ({ title }) => (
+  <View>
+    <Text style={styles.box}>{title}</Text>
+  </View>
+);
+
 export const Search = (props) => {
   const navigation = props.nav;
   const [conutry, setCountry] = useState("");
@@ -83,13 +89,15 @@ export const Search = (props) => {
     return (
       <TouchableOpacity
         onPress={() => {
-          if (pushCountry === 1) {
+          if (conutry != item) {
             setCountry(item);
+          } else {
+            setCountry("");
           }
-          setPushCountry(-1 * pushCountry);
+          console.log(conutry);
         }}
       >
-        <Text>item</Text>
+        <Text>{item}</Text>
       </TouchableOpacity>
     );
   });
@@ -98,13 +106,15 @@ export const Search = (props) => {
     return (
       <TouchableOpacity
         onPress={() => {
-          if (pushType === 1) {
+          if (type != item) {
             setType(item);
+          } else {
+            setType("");
           }
-          setPushType(-1 * pushType);
+          console.log(type);
         }}
       >
-        <Text>item</Text>
+        <Text>{item}</Text>
       </TouchableOpacity>
     );
   });
@@ -113,55 +123,61 @@ export const Search = (props) => {
     return (
       <TouchableOpacity
         onPress={() => {
-          if (pushCategory === 1) {
+          if (category != item) {
             setCategory(item);
+          } else {
+            setCategory("");
           }
-          setPushCountry(-1 * pushCategory);
+          console.log(category);
         }}
       >
-        <Text>item</Text>
+        <Text>{item}</Text>
       </TouchableOpacity>
     );
   });
 
-  const show_data = () => {
-    const data = DATA.map((item) => {
-      if (conutry !== "" && type === "" && category === "") {
-        if (item.conutry === conutry) {
-          return item;
-        }
-      } else if (conutry === "" && type !== "" && category === "") {
-        if (item.type === type) {
-          return item;
-        }
-      } else if (conutry === "" && type === "" && category !== "") {
-        if (item.category === category) {
-          return item;
-        }
-      } else if (conutry !== "" && type !== "" && category === "") {
-        if (item.conutry === conutry && item.type === type) {
-          return item;
-        }
-      } else if (conutry !== "" && type === "" && category !== "") {
-        if (item.conutry === conutry && item.category === category) {
-          return item;
-        }
-      } else if (conutry === "" && type !== "" && category !== "") {
-        if (item.category === category && item.type === type) {
-          return item;
-        }
-      } else if (
-        conutry !== "" &&
-        type !== "" &&
-        category !== "" &&
-        type !== ""
-      ) {
-        if (item.conutry === conutry && item.category === category) {
-          return item;
-        }
+  let data = [];
+  console.log(`country: ${conutry} type: ${type} category: ${category}`);
+  DATA.map((item) => {
+    const index = item.category.indexOf(category);
+    if (conutry !== "" && type === "" && category === "") {
+      if (item.conutry == conutry) {
+        data.push(item);
       }
-    });
-  };
+    } else if (conutry === "" && type !== "" && category === "") {
+      if (item.type === type) {
+        data.push(item);
+      }
+    } else if (conutry === "" && type === "" && category !== "") {
+      if (index !== -1) {
+        data.push(item);
+      }
+    } else if (conutry !== "" && type !== "" && category === "") {
+      if (item.conutry === conutry && item.type === type) {
+        data.push(item);
+      }
+    } else if (conutry !== "" && type === "" && category !== "") {
+      if (item.conutry === conutry && index !== -1) {
+        data.push(item);
+      }
+    } else if (conutry === "" && type !== "" && category !== "") {
+      if (index !== -1 && item.type === type) {
+        data.push(item);
+      }
+    } else if (
+      conutry !== "" &&
+      type !== "" &&
+      category !== "" &&
+      type !== ""
+    ) {
+      if (item.conutry === conutry && index !== -1 && item.type === type) {
+        data.push(item);
+      }
+    }
+  });
+
+  console.log("Data : ", data);
+  const renderItem = ({ item }) => <Item title={item.name} />;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -172,7 +188,7 @@ export const Search = (props) => {
         end={{ x: 1, y: 0.6 }}
         style={styles.background}
       >
-        {/* <View>
+        <View>
           <Text>ประเทศ :</Text>
           {cc}
         </View>
@@ -186,11 +202,10 @@ export const Search = (props) => {
         </View>
 
         <FlatList
-            data={IMG}
-            renderItem={renderIMG}
-            keyExtractor={(item) => item.id}
-            horizontal={true}
-          /> */}
+          data={data}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+        />
       </LinearGradient>
     </SafeAreaView>
   );

@@ -10,18 +10,19 @@ import {
 import { Entypo, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Constants from "expo-constants";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Home } from "../page/Home";
 import { Series } from "../page/Series";
 import { Movies } from "../page/Movies";
 import { Account } from "../page/Account";
-import { StackNav2 } from "../nav/StackNav2";
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 const HEIGHT = Dimensions.get("screen").height;
 const WIDTH = Dimensions.get("screen").width;
 
 const CustomHeaderBar = (props) => {
-  // const { navigation, route, options, layout } = props;
+  const { navigation, route, options, layout } = props;
   // console.log("options: ", options);
   return (
     <View style={styles.headerContainer}>
@@ -42,7 +43,12 @@ const CustomHeaderBar = (props) => {
             placeholder="ค้นหา"
             placeholderTextColor="#191919"
           />
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Search");
+              console.log("Hello");
+            }}
+          >
             <Entypo name="home" size={24} color="pink" />
           </TouchableOpacity>
         </View>
@@ -73,7 +79,12 @@ const Accounts = ({ navigation }) => {
 
 const Search = ({ navigation }) => {
   console.log("หน้า Search ใน TabNav.js");
-  return <StackNav2 />;
+  // return <StackNav2 />;
+};
+
+const Description = ({ navigation }) => {
+  console.log("หน้า Description ใน TabNav.js");
+  // return <StackNav2 />;
 };
 
 export const TabNav = () => {
@@ -132,11 +143,22 @@ export const TabNav = () => {
         }}
       />
 
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Search"
         component={Search}
         options={{
           title: "Search",
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="account" size={24} color={color} />
+          ),
+        }}
+      /> */}
+
+      <Tab.Screen
+        name="Description"
+        component={Description}
+        options={{
+          title: "Description",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="account" size={24} color={color} />
           ),
