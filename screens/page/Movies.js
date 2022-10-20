@@ -147,7 +147,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    // backgroundColor: 'orange',
   },
   background: {
     position: "absolute",
@@ -157,9 +156,20 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   box: {
-    backgroundColor: "white",
-    borderWidth: 2,
-    flex: 1,
-    margin: 20,
+    flex: 2,
+    margin: 0,
+    color:'white',
+    paddingTop: 10,
+    paddingBottom: 10,
   },
+  imageHead:{
+    width: 500,
+    height: 250 ,
+    marginBottom:20,
+  },
+  countryBar:{
+    backgroundColor: "#FAA307",
+    width:'100%',
+    height:40,
+  }
 });
